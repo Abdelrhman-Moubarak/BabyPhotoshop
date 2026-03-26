@@ -1,0 +1,21 @@
+# Compiled output
+photoshop.exe
+photoshop
+
+# Object files
+*.o
+*.obj
+
+# Build artifacts
+*.out
+*.a
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.suo
+*.user
