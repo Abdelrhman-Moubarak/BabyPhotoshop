@@ -58,3 +58,8 @@ g++ src/main.cpp src/filters/*.cpp -I lib/ -o photoshop
 ## Usage
 
 Run the program, load an image by filename, select a filter from the menu, then save the result.
+
+## Contributors 
+
+- [Abdelrhman Moubarak](https://github.com/Abdelrhman-Moubarak)
+- [Nariman Sayed](https://github.com/Nariman-Sayed)
