@@ -45,7 +45,7 @@ Image MergeImages(const Image& image1, const std::string& filename2) {
 }
 
 
-Image Wano_sunlight(Image image) {
+Image WarmTone(Image image) {
     for (int i = 0; i < image.width; ++i) {
         for (int j = 0; j < image.height; ++j) {
             // Adjust each pixel
@@ -73,7 +73,7 @@ Image Wano_sunlight(Image image) {
     return image;
 }
 
-Image TV_lines(Image& image) {
+Image ScanLines(Image& image) {
     int scan_line_Intensity = 320;
 
     // Loop through each row of pixels in the image
@@ -245,7 +245,7 @@ Image Edges(const Image& image) {
 }
 
 
-Image Purple_luffy(Image image){
+Image PurpleTint(Image image){
     for (int i = 0; i < image.width; ++i) {
         for (int j = 0; j < image.height; ++j) {
             for (int k = 0; k < 3; ++k) {
@@ -455,8 +455,8 @@ int main() {
         cout << "10. Filter 10 // Detect edges" << endl;
         cout << "11. Filter 11 // Resizing" << endl;
         cout << "12. Filter 12 // Blur" << endl;
-        cout << "13. Filter 13 // Wano Sunlight" << endl;
-        cout << "14. Filter 16 // Purple luffy" << endl;
+        cout << "13. Filter 13 // WarmTone" << endl;
+        cout << "14. Filter 16 // PurpleTint" << endl;
         cout << "15. Filter 15 // TV lines" << endl;
         cout << "16. Save the image" << endl;
         cout << "17. Exit" << endl;
@@ -598,22 +598,22 @@ int main() {
             if (!imageLoaded) {
                 cout << "No image is loaded" << endl;
             } else {
-                filtered_image = Wano_sunlight(image);
-                cout << "Wano sunlight has been fixed." << endl;
+                filtered_image = WarmTone(image);
+                cout << "WarmTone has been fixed." << endl;
             }
         } else if (choice == "14") {
             if (!imageLoaded) {
                 cout << "No image is loaded" << endl;
             } else {
-                filtered_image = Purple_luffy(image);
-                cout << "The Purple filter has been applied." << endl;
+                filtered_image = PurpleTint(image);
+                cout << "The PurpleTint filter has been applied." << endl;
             }
         } else if (choice == "15") {
             if (!imageLoaded) {
                 cout << "No image is loaded" << endl;
             } else {
-                filtered_image = TV_lines(image);
-                cout << "The TV_lines filter has been applied." << endl;
+                filtered_image = ScanLines(image);
+                cout << "The ScanLines filter has been applied." << endl;
             }
         } else if (choice == "16") {
             if (!imageLoaded) {
