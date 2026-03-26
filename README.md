@@ -1,6 +1,6 @@
 # Baby Photoshop
 
-A command-line image editor written in C++ that applies 15 filters to images using raw pixel manipulation — no external image-processing libraries.
+A command-line image editor written in C++ that applies 15 filters to images using raw pixel manipulation, no external image-processing libraries.
 
 ## Samples
 
