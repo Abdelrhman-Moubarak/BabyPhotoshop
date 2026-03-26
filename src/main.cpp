@@ -1,14 +1,5 @@
-// CS112_A3_Part1_S7,8_20230205_20230179_20230616
-// some image filters
-// Abdelrhman Amgad Ali(S7)_Nariman Sayed(S)_Somaya Amr Abd El-ghfour(S8)
-// Abdelrhman Amgad Ali(abdelrhmanwork589@gmail.com)_Nariman Sayed(narimansayed28@gmail.com)_Somaya Amr Abd El-ghfour(Somayaamr857@gmail.com)
-// ID1: 20230205 - Black & White filter and flipping the image
-// ID2: 20230616 - Inverting filter
-// ID3: 20230179 - Grayscale filter and Darken & Lighten filters
-
-
 #include "Image_Class.h"
-#include <iostream>
+#include <iostream> 
 #include <string>
 
 using namespace std;

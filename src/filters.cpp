@@ -1,12 +1,3 @@
-// CS112_A3_Part1_S7,8_20230205_20230179_20230616
-// some image filters
-// Abdelrhman Amgad Ali(S7)_Nariman Sayed(S)_Somaya Amr Abd El-ghfour(S8)
-// Abdelrhman Amgad Ali(abdelrhmanwork589@gmail.com)_Nariman Sayed(narimansayed28@gmail.com)_Somaya Amr Abd El-ghfour(Somayaamr857@gmail.com)
-// ID1: 20230205 - Black & White, Flip, Resize, Crop and Wano sunlight
-// ID2: 20230616 - Invert, Rotate, Frame, blur,TV lines
-// ID3: 20230179 - Grayscale, Darken & Lighten, Merge, Edges, Purple luffy
-
-
 #include "Image_Class.h"
 #include <iostream>
 #include <string>
