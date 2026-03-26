@@ -1,203 +1,156 @@
-#include "Image_Class.h"
-#include <iostream> 
+#include "filters.h"
+#include <iostream>
 #include <string>
 
 using namespace std;
 
-// Function to invert colors of an image
-void Inverted(Image& image) {
-    for (int i = 0; i < image.width; ++i) {
-        for (int j = 0; j < image.height; ++j) {
-            for (int k = 0; k < image.channels; ++k) {
-                image(i, j, k) = 255 - image(i, j, k);
-            }
-        }
-    }
-}
-
-// Function to lighten colors of an image
-void lighten(Image& image){
-    for (int i = 0; i < image.width; ++i) {
-        for (int j = 0; j < image.height; ++j) {
-            for (int k = 0; k < image.channels; ++k) {
-                if (image(i,j,k) <= 170) {
-                    image(i, j, k) *= 1.5;
-                } else {
-                    image(i,j,k) = 255;
-                }
-            }
-        }
-    }
-}
-
-// Function to darken colors of an image
-void Darken(Image& image){
-    for (int i = 0; i < image.width; ++i) {
-        for (int j = 0; j < image.height; ++j) {
-            for (int k = 0; k < image.channels; ++k) {
-                image(i,j,k) /= 2;
-            }
-        }
-    }
-}
-
-// Function to convert image to grayscale
-void Grayscale(Image& image){
-    for (int i = 0; i < image.width; ++i) {
-        for (int j = 0; j < image.height; ++j) {
-            unsigned int avg = 0;
-            for (int k = 0; k < image.channels; ++k) {
-                avg += image(i, j, k);
-            }
-            avg = avg / 3;
-            for (int k = 0; k < 3; ++k) {
-                image(i, j, k) = avg;
-            }
-        }
-    }
-}
-
-// Function to convert image to black and white
-void Black_White(Image& image){
-    for(int i = 0; i < image.width; i++){
-        for(int j = 0; j < image.height; j++){
-            unsigned int avg = 0;
-            for(int k = 0; k < image.channels; k++){
-                avg += image(i,j,k);
-            }
-            avg = avg/3;
-            for(int k = 0; k < image.channels; k++){
-                if(avg > 118){
-                    image(i,j,k) = 255;
-                } else {
-                    image(i,j,k) = 0;
-                }
-            }
-        }
-    }
-}
-
-// Function to flip image horizontally
-void Flip_Horizontally(Image& image) {
-    for (int i = 0; i < image.width / 2; ++i) {
-        for (int j = 0; j < image.height; ++j) {
-            for (int k = 0; k < image.channels; ++k) {
-                swap(image(i, j, k), image(image.width - 1 -i, j, k));
-            }
-        }
-    }
-}
-
-// Function to flip image vertically
-void Flip_Vertically(Image& image) {
-    for (int i = 0; i < image.width; ++i) {
-        for (int j = 0; j < image.height / 2; ++j) {
-            for (int k = 0; k < image.channels; ++k) {
-                swap(image(i, j, k), image(i, image.height - 1 - j, k));
-            }
-        }
-    }
-}
-
 int main() {
-    Image image; // Declare an instance of the Image class
-    bool imageLoaded = false; // Flag to track if an image is loaded
+    Image image;
+    Image filtered_image;
+    bool imageLoaded = false;
 
-    // Menu-driven program loop
     while (true) {
-        // Display menu options
-        cout << "Menu Options:" << endl;
-        cout << "1. Load a new image" << endl;
-        cout << "2. Filter 1 // Grayscale" << endl;
-        cout << "3. Filter 2 // Black & White" << endl;
-        cout << "4. Filter 3 // Flip" << endl;
-        cout << "5. Filter 4 // Darken & Lighten" << endl;
-        cout << "6. Filter 5 // Invert" << endl;
-        cout << "7. Save the image" << endl;
-        cout << "8. Exit" << endl;
-
-        int choice; // Variable to store user's choice
+        cout << "\nMenu Options:" << endl;
+        cout << "A.  Load a new image" << endl;
+        cout << "1.  Grayscale" << endl;
+        cout << "2.  Black & White" << endl;
+        cout << "3.  Invert" << endl;
+        cout << "4.  Merge" << endl;
+        cout << "5.  Flip" << endl;
+        cout << "6.  Rotate" << endl;
+        cout << "7.  Darken & Lighten" << endl;
+        cout << "8.  Crop" << endl;
+        cout << "9.  Frame" << endl;
+        cout << "10. Detect Edges" << endl;
+        cout << "11. Resize" << endl;
+        cout << "12. Blur" << endl;
+        cout << "13. Warm Tone" << endl;
+        cout << "14. Purple Tint" << endl;
+        cout << "15. Scan Lines" << endl;
+        cout << "16. Save the image" << endl;
+        cout << "17. Exit" << endl;
         cout << "Enter your choice: ";
-        cin >> choice; // Read user's choice
 
-        // Handling user's choice
-        if (choice == 1) {
-            string imagename;
-            cout << "Enter the imagename of the image to load: ";
-            cin >> imagename;
-            Image currentimage;
-            bool success = image.loadNewImage(imagename); // Attempt to load image
-            if (success) {
-                imageLoaded = true; // Mark image as loaded
+        string choice;
+        cin >> choice;
+
+        if (choice == "A") {
+            string image_name;
+            cout << "Enter the name of the image to load: ";
+            cin >> image_name;
+            if (image.loadNewImage(image_name)) {
+                filtered_image = image;
+                imageLoaded = true;
                 cout << "Image loaded successfully." << endl;
             } else {
-                cout << "Failed to load the image! Please try again." << endl;
+                cout << "Failed to load the image. Please try again." << endl;
             }
-        } else if (choice >= 2 && choice <= 6) { // Apply filters if an image is loaded
-            if (!imageLoaded) {
-                cout << "No image is loaded" << endl;
-            } else {
-                switch(choice) {
-                    case 2:
-                        Grayscale(image);
-                        cout << "Grayscale filter has been applied." << endl;
-                        break;
-                    case 3:
-                        Black_White(image);
-                        cout << "Black & White filter has been applied." << endl;
-                        break;
-                    case 4:
-                        cout << "1. Flip vertically" << endl;
-                        cout << "2. Flip horizontally" << endl;
-                        char x;
-                        cin >> x;
-                        if(x == '1'){
-                            Flip_Vertically(image);
-                            cout << "The image has been flipped vertically." << endl;
-                        } else if(x == '2') {
-                            Flip_Horizontally(image);
-                            cout << "The image has been flipped horizontally." << endl;
-                        }
-                        break;
-                    case 5:
-                        cout << "1. Darken the image" << endl;
-                        cout << "2. Lighten the image" << endl;
-                        char y;
-                        cin >> y;
-                        if(y == '1'){
-                            Darken(image);
-                            cout << "The image has been darkened successfully." << endl;
-                        } else if(y == '2') {
-                            lighten(image);
-                            cout << "The image has been lightened successfully." << endl;
-                        }
-                        break;
-                    case 6:
-                        Inverted(image);
-                        cout << "The image colors have been inverted." << endl;
-                        break;
-                }
-            }
-        } else if (choice == 7) {
-            if (!imageLoaded) {
-                cout << "No image is loaded" << endl;
-            } else {
-                string newimagename;
-                cout << "Enter the filename to save the image: ";
-                cin >> newimagename;
 
-                bool success = image.saveImage(newimagename); // Attempt to save the image
-                if (success) {
+        } else if (choice == "1") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else { filtered_image = Grayscale(image); cout << "Grayscale applied." << endl; }
+
+        } else if (choice == "2") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else { filtered_image = Black_White(image); cout << "Black & White applied." << endl; }
+
+        } else if (choice == "3") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else { filtered_image = Inverted(image); cout << "Invert applied." << endl; }
+
+        } else if (choice == "4") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else {
+                string filename2;
+                cout << "Enter the name of the second image: ";
+                cin >> filename2;
+                filtered_image = MergeImages(image, filename2);
+                cout << "Images merged." << endl;
+            }
+
+        } else if (choice == "5") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else {
+                cout << "1. Flip Vertically" << endl;
+                cout << "2. Flip Horizontally" << endl;
+                char x; cin >> x;
+                if (x == '1') { filtered_image = Flip_Vertically(image); cout << "Flipped vertically." << endl; }
+                else if (x == '2') { filtered_image = Flip_Horizontally(image); cout << "Flipped horizontally." << endl; }
+            }
+
+        } else if (choice == "6") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else {
+                cout << "1. Rotate 90" << endl;
+                cout << "2. Rotate 180" << endl;
+                cout << "3. Rotate 270" << endl;
+                char x; cin >> x;
+                if (x == '1') { filtered_image = Rotate90(image); cout << "Rotated 90 degrees." << endl; }
+                else if (x == '2') { filtered_image = Rotate180(image); cout << "Rotated 180 degrees." << endl; }
+                else if (x == '3') { filtered_image = Rotate270(image); cout << "Rotated 270 degrees." << endl; }
+            }
+
+        } else if (choice == "7") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else {
+                cout << "1. Darken" << endl;
+                cout << "2. Lighten" << endl;
+                char y; cin >> y;
+                if (y == '1') { filtered_image = Darken(image); cout << "Image darkened." << endl; }
+                else if (y == '2') { filtered_image = lighten(image); cout << "Image lightened." << endl; }
+            }
+
+        } else if (choice == "8") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else { filtered_image = Crop(image); cout << "Image cropped." << endl; }
+
+        } else if (choice == "9") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else { filtered_image = Frame(image); cout << "Frame added." << endl; }
+
+        } else if (choice == "10") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else { filtered_image = Edges(image); cout << "Edge detection applied." << endl; }
+
+        } else if (choice == "11") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else { filtered_image = Resize(image); cout << "Image resized." << endl; }
+
+        } else if (choice == "12") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else { filtered_image = Blur(image); cout << "Blur applied." << endl; }
+
+        } else if (choice == "13") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else { filtered_image = WarmTone(image); cout << "Warm Tone applied." << endl; }
+
+        } else if (choice == "14") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else { filtered_image = PurpleTint(image); cout << "Purple Tint applied." << endl; }
+
+        } else if (choice == "15") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else { filtered_image = ScanLines(image); cout << "Scan Lines applied." << endl; }
+
+        } else if (choice == "16") {
+            if (!imageLoaded) { cout << "No image loaded." << endl; }
+            else {
+                string filename;
+                cout << "Enter filename to save (e.g. output.jpg): ";
+                cin >> filename;
+                if (filtered_image.saveImage(filename)) {
                     cout << "Image saved successfully." << endl;
                 } else {
-                    cerr << "Failed to save the image! Please try again." << endl;
+                    cerr << "Failed to save the image." << endl;
                 }
             }
-        } else if (choice == 8) {
+
+        } else if (choice == "17") {
             cout << "Exiting..." << endl;
-            return 0; // Exit the program
+            return 0;
+
         } else {
-            cout << "Please enter a valid input" << endl; // Invalid input
+            cout << "Invalid input. Please try again." << endl;
         }
     }
 }
